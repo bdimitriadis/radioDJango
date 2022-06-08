@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+{% load radioFilters %}
+
+
+<html lang="en">
+	<head>
+	    <meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		
+		<script defer src="{% static '/fontawesome-free-5.0.7/svg-with-js/js/fontawesome-all.js' %}"></script>
+
+		<script type="text/javascript" src="{% static '/node_modules/jquery/dist/jquery.js' %}"></script>
+		<script type="text/javascript" src="{% static '/node_modules/popper.js/dist/umd/popper.js' %}"></script>
+		<script type="text/javascript" src="{% static '/node_modules//bootstrap/dist/js/bootstrap.js' %}"></script>
+		<script>
+		function goHome() {
+			window.location = '/';
+		}
+		</script>
+		
+		<script>
+		function goBack() {
+		    window.history.back();
+		}
+		</script>
+
+		<link rel="stylesheet" href="{% static 'css/extra.css' %}">		
+    	<link rel="stylesheet" href="{% static '/node_modules/bootstrap/dist/css/bootstrap.css' %}">
+<!--     	<link rel="stylesheet" href="{% static '/bootstrap/dist/css/bootstrap-theme.css' %}"> -->
+		{% block title %}
+			<title> {{ title }}</title>
+		{% endblock title %}
+	</head>
+<body>
+	{% block header %}
+	<div class="jumbotron text-center vertical-center">	
+	  <div class="container">
+	  	<h1>RadioDJango</h1>
+	  	<p>Listen to pythonic music!</p>
+	  </div>
+	</div>
+	{% endblock header %}
+	
+	
+	{% block content %}
+	<div class="container text-center">
+		<h2>Python bites and music beats</h2>
+		<p>Find the most suitable station for you</p>
+  		<br>
+	</div>
+	<div class="container">
+		
+		<ul class="nav nav-tabs" role="tablist">
+		  <li class="nav-item">
+		  	<a class="nav-link active" data-toggle="tab" href="#genresection">
+		  		<i class="fa fa-headphones"></i> Genres
+		  	</a>
+		  </li>
+		   <li class="nav-item">
+		  	<a class="nav-link" data-toggle="tab" href="#locsection">
+		  		<i class="fa fa-rocket"></i> Locations
+		  	</a>
+		  </li>
+		   <li class="nav-item">
+		  	<a class="nav-link" data-toggle="tab" href="#favsection">
+		  		<i class="fa fa-heartbeat"></i> Favourites
+		  	</a>
+		  </li>
+<!-- 		  <li class="nav-item dropdown"> -->
+<!-- 		    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Locations</a> -->
+<!-- 		    <div class="dropdown-menu"> -->
+<!-- 		    {% for loc in locations %} -->
+<!-- 		      <a class="dropdown-item" href="#"> {{loc}} </a> -->
+<!-- 		    {% endfor %} -->
+<!-- 		    </div> -->
+<!-- 		  </li> -->
+		</ul>
+		
+		
+		<!-- Tab panes -->
+		<div class="tab-content">
+		  <div class="container tab-pane active" id="genresection">
+		  	<h3>Kind Music</h3>
+		  	<h5>... our favourite Music Kind</h5>
+		  	<p>What kind of music would you like to hear right now?</p>
+		  	
+		  	<ul class="list-group">
+		  		{% for genre, groupType in genresDict.items %}
+		  		    <a href="{% url 'byGenre' genre.id %}" class="list-group-item list-group-item-action list-group-item-{{groupType}}"> {{genre}}</a>
+<!-- 			  	<li class="list-group-item list-group-item-{{groupType}}"> {{genre}} </li> -->
+			  	{% endfor %}
+			</ul>
+		  </div>
+		  <div class="container tab-pane fade" id="locsection">
+		  	<h3>Music can fly you to the moon</h3>
+		  	<h5>... or somewhere closer</h5>
+		  	<p>Pick up the location or area that is on your mind.</p>
+		  	
+		  	<ul class="list-group">
+		  		{% for location, groupType in locationsDict.items %}
+		  			<a data-toggle="collapse" role="button" aria-expanded="false" aria-controls="loc{{location.id}}" href="#loc{{location.id}}" class="list-group-item list-group-item-action list-group-item-{{groupType}}"> {{location}}</a>
+<!-- 		  			<a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample"> -->
+<!--     {{location.name}} -->
+<!--   </a> -->		 
+				
+				<div class="collapse" id="loc{{location.id}}">
+  					<div class="card card-body">
+
+
+<!--   								<a href="{% url 'byArea' location.id %}" class="list-group-item list-group-item-action list-group-item-{{groupType}}"> {{locAreasDict|get_item:location}} </a> -->
+  					
+  							{% for area, groupType in locAreasDict|get_item:location %}
+  								<a href="{% url 'byArea' area.id %}" class="list-group-item list-group-item-action list-group-item-{{groupType}}"> {{area}} </a>
+  							{% endfor %}
+
+					</div>
+				</div>
+			  	{% endfor %}
+			  	
+			  	
+			</ul>
+		  </div>
+		  <div class="container tab-pane fade" id="favsection">
+		  	<h3>Listen to your heart</h3>
+		  	<h5>... beat</h5>
+		  	<p>Your favourite music at your feet!!!</p>
+		  	
+		  	<div class="row">
+			{% for station in favourites %}
+		     		
+				<div class="card col-xs-12 col-md-6 col-lg-4 mt-1 pb-0">
+					<img class="card-img-top station-img" src="{% static '/images/' %}{{station.image}}" alt="{{station.name}} image" style="width:100%">
+					<div class="card-body text-center">
+						<h4 class="card-title">{{station.name}}</h4>
+						<div class="card-text">Genre: <a href="{% url 'byGenre' station.genre.id %}">{{station.genre}}</a></div>
+						<div class="card-text">Area: <a href="{% url 'byArea' station.area.id %}">{{station.area}}</a></div>
+						<a href="{% url 'remFromFavs' station.id%}" data-toggle="tooltip" title="Remove from favourites!"><i class="far fa-thumbs-down fa-2x"></i></a>						
+						<div>
+							<audio controls>
+								 <source src="{{station.stationUrl}}" type="audio/mpeg">
+								 <source src="{{station.stationUrl}}/;" type="audio/mpeg">
+								 <object data="mediaplayer.swf?audio={{station.stationUrl}}">
+								 <param name="movie" value="mediaplayer.swf?audio={{station.stationUrl}}">
+								 <p>Your browser does not support native audio or Flash.</p>
+								 </object>
+							</audio>
+						</div>
+							<a href="{{station.stationUrl}}" target="_blank" class="btn btn-primary">Go Live</a>
+		    		</div>
+		    		<br>
+		 
+				</div>
+  		
+			{% endfor %}
+			</div>		
+<!-- 		  	<ul class="list-group"> -->
+<!-- 		  		{% for ck in cookieLst %} -->
+<!-- 		  		    <a href="#" class="btn"> {{ck}}</a> -->
+<!-- 			  	{% endfor %} -->
+<!-- 			</ul> -->
+		  </div>
+		</div>
+	</div>
+	{% endblock content %}
+	
+	{% block footer %}
+	<footer class="footer">
+  		<span>by Vlasios Dimitriadis 2018</span>
+  		<div>
+  			<i class="fab fa-creative-commons fa-2x text-light"></i>
+  			<a href="https://github.com/bdimitriadis"><i class="fab fa-github-square fa-2x text-light"></i></a>
+  			<a href="https://www.youtube.com/watch?v=Bt10Xmlwm1Y"><i class="fab fa-youtube-square fa-2x text-light"></i></a>
+  			  			
+  		</div> 
+	</footer>
+	{% endblock footer %}
+	
+</body>
