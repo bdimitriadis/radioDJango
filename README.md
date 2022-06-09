@@ -11,7 +11,10 @@ What things you need to install on your system
 
 ```
 * Python 3.x.x
-* The required packages found in requirements.txt file via pip installer. The file requirements.txt, contains the minimum versions of the required packages that have been tested and working. The packages' versions could probably be omitted so that the latest packages are installed.
+* The required packages found in requirements.txt file via pip installer. 
+The file requirements.txt, contains the minimum versions of the required packages 
+that have been tested and working. The packages' versions could probably be omitted
+so that the latest packages are installed.
 ```
 
 ## Deployment
