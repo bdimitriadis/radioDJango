@@ -31,7 +31,7 @@ Adjust settings in the settings.py file to your own database settings, or export
 
 ## Authors
 
-* **Blasis Dimitriadis** - *Initial work* - [radioDango](https://github.com/bdimitriadis/radioDjango)
+* **Vlasios Dimitriadis** - *Initial work* - [radioDango](https://github.com/bdimitriadis/radioDjango)
 
 
 ## License
