@@ -36,4 +36,4 @@ Adjust settings in the settings.py file to your own database settings, or export
 
 ## License
 
-This project is licensed under the GNU General Public License v3.0 - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details
